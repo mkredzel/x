@@ -13,7 +13,10 @@ export const env = createEnv({
       .refine(
         (str) => !str.includes("YOUR_MYSQL_URL_HERE"),
         "You forgot to change the default URL"
-      )
+      ),
+    NODE_ENV: z
+      .enum(["development", "test", "production"])
+      .default("development")
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
   },
 
