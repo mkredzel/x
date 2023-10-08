@@ -32,6 +32,9 @@ dependencies:
   '@trpc/server':
     specifier: ^10.37.1
     version: 10.40.0
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   next:
     specifier: ^13.4.19
     version: 13.5.4(react-dom@18.2.0)(react@18.2.0)
@@ -71,7 +74,7 @@ devDependencies:
     specifier: ^6.3.0
     version: 6.7.4(eslint@8.51.0)(typescript@5.2.2)
   autoprefixer:
-    specifier: ^10.4.14
+    specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.31)
   eslint:
     specifier: ^8.47.0
@@ -83,10 +86,10 @@ devDependencies:
     specifier: ^8.4.27
     version: 8.4.31
   prettier:
-    specifier: ^3.0.0
+    specifier: ^3.0.3
     version: 3.0.3
   prettier-plugin-tailwindcss:
-    specifier: ^0.5.1
+    specifier: ^0.5.5
     version: 0.5.5(prettier@3.0.3)
   prisma:
     specifier: ^5.4.1
@@ -1191,6 +1194,10 @@ packages:
   /damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
     dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
 
   /debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
