@@ -2,7 +2,7 @@ export const LoadingSpinner = (props: { size?: number }) => {
   return (
     <div role="status">
       <svg
-        className="animate-spin rounded-full border-[4px] border-current border-t-transparent text-slate-400"
+        className="animate-spin rounded-full border-[3px] border-current border-t-transparent text-slate-400"
         aria-label="loading"
         width={props.size ?? 24}
         height={props.size ?? 24}
