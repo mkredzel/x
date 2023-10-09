@@ -1,8 +1,7 @@
-import { SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 import { api } from "~/utils/api";
 
-import Image from "next/image";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -34,12 +33,15 @@ const CreatePostWizard = () => {
 
   return (
     <div className="flex w-full gap-3">
-      <Image
-        src={user.imageUrl}
-        alt="Profile image"
-        className="h-14 w-14 rounded-full"
-        width={56}
-        height={56}
+      <UserButton
+        appearance={{
+          elements: {
+            userButtonAvatarBox: {
+              width: 56,
+              height: 56,
+            },
+          },
+        }}
       />
       <input
         placeholder="Type your message!"
@@ -77,12 +79,17 @@ const CreatePostWizard = () => {
 const Feed = () => {
   const { data, isLoading: postsLoading } = api.posts.getAll.useQuery();
 
-  if (postsLoading) return <LoadingPage />;
+  if (postsLoading)
+    return (
+      <div className="flex grow">
+        <LoadingPage />
+      </div>
+    );
 
   if (!data) return <div>Something went wrong</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex grow flex-col overflow-y-scroll">
       {data?.map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}
@@ -100,7 +107,7 @@ export default function Home() {
   return (
     <>
       <PageLayout>
-        <div className="border-b border-slate-400 p-4">
+        <div className="flex border-b border-slate-400 p-4">
           {!isSignedIn && (
             <div className="flex justify-center">
               <SignInButton />
