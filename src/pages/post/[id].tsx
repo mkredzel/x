@@ -1,16 +1,44 @@
+import type { GetStaticProps } from "next";
 import Head from "next/head";
+import { api } from "~/utils/api";
+import { PageLayout } from "~/components/layout";
+import { PostView } from "~/components/postview";
+import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
-export default function SinglePostPage() {
+export default function SinglePostPage({ id }: { id: string }) {
+  const { data } = api.posts.getPostById.useQuery({
+    id,
+  });
+  if (!data) return <div>404</div>;
+
   return (
     <>
       <Head>
-        <title>Post / X</title>
+        <title>{`${data.post.content} - ${data.author.username}`} / X</title>
       </Head>
-      <main className="flex h-screen justify-center">
-        <div className="w-full border-x border-slate-200 md:max-w-2xl">
-          <div className="border-b border-slate-400 p-4"></div>
-        </div>
-      </main>
+      <PageLayout>
+        <PostView {...data} />
+      </PageLayout>
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const ssg = generateSSGHelper();
+  const id = context.params?.id;
+
+  if (typeof id !== "string") throw new Error("no id!");
+
+  await ssg.posts.getPostById.prefetch({ id });
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      id,
+    },
+  };
+};
+
+export const getStaticPaths = () => {
+  return { paths: [], fallback: "blocking" };
+};

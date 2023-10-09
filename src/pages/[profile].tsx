@@ -1,14 +1,11 @@
 import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import { appRouter } from "~/server/api/root";
-import { db } from "~/server/db";
-import superjson from "superjson";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { PageLayout } from "~/components/layout";
 import Image from "next/image";
 import { LoadingPage } from "~/components/loading";
 import { PostView } from "~/components/postview";
+import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
 const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostByUserId.useQuery({
@@ -52,7 +49,7 @@ export default function ProfilePage({ username }: { username: string }) {
         <div className="h-[64px]"></div>
         <div className="p-4 text-2xl font-bold">{`@${data.username}`}</div>
         <div className="w-full border-b border-slate-400">
-        <ProfileFeed userId={data.id}/>
+          <ProfileFeed userId={data.id} />
         </div>
       </PageLayout>
     </>
@@ -60,12 +57,7 @@ export default function ProfilePage({ username }: { username: string }) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const ssg = createServerSideHelpers({
-    router: appRouter,
-    ctx: { db, userId: null },
-    transformer: superjson,
-  });
-
+  const ssg = generateSSGHelper();
   const profile = context.params?.profile;
 
   if (typeof profile !== "string") throw new Error("no profile!");
